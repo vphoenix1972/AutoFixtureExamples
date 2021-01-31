@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Mocks.Tests.UsualWay
 {
-    public class SellHandlerTests
+    public sealed class SellHandlerTests
     {
         [Fact]
         public async Task ShouldSellOffers_PriceEqualOrMore()
