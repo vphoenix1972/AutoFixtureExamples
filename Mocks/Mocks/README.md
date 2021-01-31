@@ -73,7 +73,7 @@ public interface IStockExchangeApiService
 Напишем тест на данный класс:
 ```
 public sealed class BuyHandlerTests
-{a
+{
     [Fact]
     public async Task ShouldBuyOffers_PriceEqualOrLess()
     {
@@ -87,7 +87,7 @@ public sealed class BuyHandlerTests
         var stockExchange = Mock.Of<IStockExchangeApiService>();
 
         // Подключение будет всегда успешно
-        Mock.Get(stockExchange).Setup(x =>           x.ConnectAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
+        Mock.Get(stockExchange).Setup(x => x.ConnectAsync(It.IsAny<string>())).Returns(Task.CompletedTask);
 
         // Создаем список заявок для использования в тесте
         var offers = new List<Offer>
@@ -105,7 +105,7 @@ public sealed class BuyHandlerTests
         Mock.Get(stockExchange).Setup(x => x.GetOffersAsync())
             .ReturnsAsync(offers);
 
-        // Прописываем логику работы mockа, чтобы возвращать число заявок, которые были куплены при вызове
+        // Прописываем логику работы mock, чтобы возвращать число заявок, которые были куплены при вызове
         Mock.Get(stockExchange).Setup(x => x.BuyAsync(It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync((int offerId, int countToBuy) =>
             {
@@ -134,11 +134,11 @@ public sealed class BuyHandlerTests
         // handler должен попробовать купить оставшиеся 15 бумаг по цене 110 (будет куплено 10)
         Mock.Get(stockExchange).Verify(x => x.BuyAsync(2, 15), Times.Once);
 
-        // handle НЕ должен покупать бумаги по 120, тк максимальная цена указана равной 115
+        // handle НЕ должен покупать бумаги по 120, так как максимальная цена указана равной 115
         Mock.Get(stockExchange).Verify(x => x.BuyAsync(1, It.IsAny<int>()), Times.Never);
     }
 ```
-Как мы видим, достаточно много Arrange кода. Мы могли уменьшить его, например частично перенеся в конструктор или вынеся его отдельными методами, или использовать Autofixture.
+Как мы видим, достаточно много Arrange кода. Мы могли бы уменьшить его, например частично перенеся в конструктор, вынеся его отдельными методами или использовать Autofixture.
 
 У Autofixture есть интерфейс ICustomization, позволяющий настроить создание тестовых данных. Мы можем создавать наш handler при помощи Autofixture, предварительно настроив кастомизации для зависимостей handler.
 
