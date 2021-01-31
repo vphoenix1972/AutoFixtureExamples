@@ -16,8 +16,6 @@ namespace Mocks.Tests.AutoFixtureWay
                 .Customize(new ConfigurationCustomization())
                 .Customize(new StockExchangeApiServiceCustomization());
 
-            var stockExchangeMock = fixture.Create<Mock<IStockExchangeApiService>>();
-
             var handler = fixture.Create<BuyHandler>();
 
             // act
@@ -25,6 +23,8 @@ namespace Mocks.Tests.AutoFixtureWay
 
             // assert
             Assert.Equal(15, boughtCount);
+
+            var stockExchangeMock = fixture.Create<Mock<IStockExchangeApiService>>();
 
             stockExchangeMock.Verify(x => x.ConnectAsync(ConfigurationCustomization.StockExchangeUrl), Times.Once);
 
