@@ -241,7 +241,7 @@ public sealed class BuyHandlerTests
         // handler должен попробовать купить оставшиеся 15 бумаг по цене 110 (будет куплено 10)
         stockExchangeMock.Verify(x => x.BuyAsync(2, 15), Times.Once);
 
-        // handle НЕ должен покупать бумаги по 120, тк максимальная цена указана равной 115
+        // handle НЕ должен покупать бумаги по 120, так как максимальная цена указана равной 115
         stockExchangeMock.Verify(x => x.BuyAsync(1, It.IsAny<int>()), Times.Never);
     }
 }
